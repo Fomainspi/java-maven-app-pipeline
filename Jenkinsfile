@@ -93,6 +93,6 @@ pipeline {
         }
       }
     }
-  }
+  } // <-- closing brace for 'stages'
 
-  
+} // <-- missing closing brace for 'pipeline'
