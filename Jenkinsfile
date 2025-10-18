@@ -80,7 +80,7 @@ pipeline {
 
     stage('Docker Scan Image') {
       steps {
-        sh "trivy image fomawill/java-maven-app:1.6 --skip-version-check"
+        // sh "trivy image --skip-version-check fomawill/java-maven-app:1.6"
       }
     }
 
