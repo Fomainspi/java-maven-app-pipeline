@@ -78,12 +78,6 @@ pipeline {
       }
     }
 
-    stage('Docker Scan Image') {
-      steps {
-        // sh "trivy image --skip-version-check fomawill/java-maven-app:1.6"
-      }
-    }
-
     stage('Push Docker Image') {
       steps {
         script {
