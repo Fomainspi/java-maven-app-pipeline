@@ -72,7 +72,7 @@ pipeline {
       steps {
         script {
           withDockerRegistry(credentialsId: 'docker_token') {
-            sh "docker build -t fomawill/java-maven-app:1.6 ."
+            sh "docker build -t fomawill/java-maven-app:1.7 ."
           }
         }
       }
@@ -82,7 +82,7 @@ pipeline {
       steps {
         script {
           withDockerRegistry(credentialsId: 'docker_token', toolName: 'docker') {
-            sh "docker push fomawill/java-maven-app:1.6"
+            sh "docker push fomawill/java-maven-app:1.7"
           }
         }
       }
