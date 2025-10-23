@@ -1,21 +1,21 @@
 apiVersion: apps/v1
-kind: Deployment 
+kind: Deployment
 metadata:
   name: java-maven-app-deployment
   namespace: webapp
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: java-maven-app
-  replicas: 2
   template:
     metadata:
       labels:
         app: java-maven-app
     spec:
       containers:
-        - name: java-maven-app
-          image: fomawill/java-maven-app:1.7
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
+      - name: java-maven-app
+        image: fomawill/java-maven-app:1.7
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
