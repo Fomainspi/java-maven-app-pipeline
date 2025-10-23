@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: java-maven-app
-  replicas: 2 # Number of replicas that will be created for this deployment
+  replicas: 2
   template:
     metadata:
       labels:
@@ -15,24 +15,7 @@ spec:
     spec:
       containers:
         - name: java-maven-app
-          image: ebonje/java-maven-app:1.7 # this image will be used by containers in the cluster
+          image: fomawill/java-maven-app:1.7
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080 # The port that the container is running on in the cluster
-
-
----
-
-apiVersion: v1 
-kind: Service 
-metadata: 
-  name: java-maven-app-svc
-  namespace: webapp
-spec:
-  selector:
-    app: java-maven-app
-  ports:
-    - protocol: "TCP"
-      port: 8080 # the service is running on this port in the cluster
-      targetPort: 8080 # The port exposed by the service
-  type: LoadBalancer # type of the service.
+            - containerPort: 8080
