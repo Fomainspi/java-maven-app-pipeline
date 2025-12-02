@@ -3,7 +3,7 @@ pipeline {
 
   tools {
     jdk 'jdk17'
-    maven 'maven3'
+    maven 'Maven3'
   }
 
   environment {
@@ -30,10 +30,12 @@ pipeline {
     }
 
     stage('File System Scan') {
-      steps {
-        sh "trivy fs ."
-      }
+    steps {
+        sh '''
+        docker run --rm -v $WORKSPACE:/scan aquasec/trivy fs /scan
+        '''
     }
+}
 
     stage('SonarQube Analysis') {
       steps {
