@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('Git Checkout') {
       steps {
-        git credentialsId: 'git-cred', url: 'https://github.com/Fomainspi/java-maven-app-pipeline.git'
+        git credentialsId: 'Github-Cred', url: 'https://github.com/Fomainspi/java-maven-app-pipeline.git'
       }
     }
 
@@ -50,7 +50,7 @@ pipeline {
     stage('Quality Gate') {
       steps {
         script {
-          waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+          waitForQualityGate abortPipeline: true, credentialsId: 'Sonar4Jenkins'
         }
       }
     }
