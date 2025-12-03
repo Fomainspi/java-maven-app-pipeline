@@ -85,20 +85,4 @@ pipeline {
         }
       }
     }
-    stage('Deploy to Kubernetes') {
-      steps {
-         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'my-token', namespace: 'webapp', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.249:6443') {
-                  sh "kubectl apply -f deployment.yaml"
-        }
-      }
-    }
-    stage('Verify The Deployment') {
-      steps {
-         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'my-token', namespace: 'webapp', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.249:6443') {
-                  sh "kubectl get pods -n webapp"
-                  sh "kubectl get svc -n webapp"
-        }
-      }        
-    }
-  }
 }
