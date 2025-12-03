@@ -10,7 +10,7 @@
 
     <distributionManagement>
         <snapshotRepository>
-           <id>admin</id>
+           <id>maven-snapshots</id>
            <url>http://13.54.216.121:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
