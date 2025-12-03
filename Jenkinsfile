@@ -62,7 +62,7 @@ pipeline {
     stage('Publish To Nexus') {
       steps {
         withMaven(
-          globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+          withMaven(globalMavenSettingsConfig: 'Global-Maven-settings', jdk: 'jdk17', maven: 'Maven3', mavenSettingsConfig: 'project-settings', traceability: true) {
           sh "mvn deploy"
         }
       }
@@ -71,7 +71,7 @@ pipeline {
     stage('Build & Tag Docker Image') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'docker_token') {
+          withDockerRegistry(credentialsId: 'Docker-cred') {
             sh "docker build -t fomawill/java-maven-app:1.7 ."
           }
         }
@@ -81,7 +81,7 @@ pipeline {
     stage('Push Docker Image') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'docker_token', toolName: 'docker') {
+          withDockerRegistry(credentialsId: 'Docker-cred', toolName: 'docker') {
             sh "docker push fomawill/java-maven-app:1.7"
           }
         }
