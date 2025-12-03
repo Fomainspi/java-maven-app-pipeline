@@ -35,10 +35,10 @@ pipeline {
         withSonarQubeEnv('sonar') {
           sh """
             ${SCANNER_HOME}/bin/sonar-scanner \
-            -Dsonar.projectName=java-maven-app \
-            -Dsonar.projectKey=java-maven-app \
-            -Dsonar.sources=src \
-            -Dsonar.java.binaries=.
+              -Dsonar.projectName=java-maven-app \
+              -Dsonar.projectKey=java-maven-app \
+              -Dsonar.sources=src \
+              -Dsonar.java.binaries=.
           """
         }
       }
@@ -60,8 +60,13 @@ pipeline {
 
     stage('Publish To Nexus') {
       steps {
-        withMaven(globalMavenSettingsConfig: 'Global-Maven-settings', jdk: 'jdk17', maven: 'Maven3', traceability: true)
-         {
+        withMaven(
+          globalMavenSettingsConfig: 'Global-Maven-settings',
+          mavenSettingsConfig: 'project-settings',
+          jdk: 'jdk17',
+          maven: 'Maven3',
+          traceability: true
+        ) {
           sh "mvn deploy -DskipTests"
         }
       }
