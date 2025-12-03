@@ -11,6 +11,7 @@ pipeline {
   }
 
   stages {
+
     stage('Git Checkout') {
       steps {
         git credentialsId: 'Github-Cred', url: 'https://github.com/Fomainspi/java-maven-app-pipeline.git'
@@ -30,17 +31,21 @@ pipeline {
     }
 
     stage('Trivy FS Scan') {
-    steps {
-        sh 'trivy fs .'
+      steps {
+        sh "trivy fs ."
+      }
     }
-}
 
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('sonar') {
-          sh """ ${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectName=java-maven-app -Dsonar.projectKey=java-maven-app \
-              -Dsonar.sources=src \
-              -Dsonar.java.binaries=. """
+          sh """
+            ${SCANNER_HOME}/bin/sonar-scanner \
+            -Dsonar.projectName=java-maven-app \
+            -Dsonar.projectKey=java-maven-app \
+            -Dsonar.sources=src \
+            -Dsonar.java.binaries=.
+          """
         }
       }
     }
@@ -55,15 +60,20 @@ pipeline {
 
     stage('Build Artifact') {
       steps {
-        sh "mvn package"
+        sh "mvn package -DskipTests"
       }
     }
 
     stage('Publish To Nexus') {
       steps {
         withMaven(
-          withMaven(globalMavenSettingsConfig: 'Global-Maven-settings', jdk: 'jdk17', maven: 'Maven3', mavenSettingsConfig: 'project-settings', traceability: true) {
-          sh "mvn deploy"
+          maven: 'Maven3',
+          jdk: 'jdk17',
+          globalMavenSettingsConfig: 'Global-Maven-settings',
+          mavenSettingsConfig: 'project-settings',
+          traceability: true
+        ) {
+          sh "mvn deploy -DskipTests"
         }
       }
     }
@@ -81,7 +91,7 @@ pipeline {
     stage('Push Docker Image') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'Docker-cred', toolName: 'docker') {
+          withDockerRegistry(credentialsId: 'Docker-cred') {
             sh "docker push fomawill/java-maven-app:1.7"
           }
         }
