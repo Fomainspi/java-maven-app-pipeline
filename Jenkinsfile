@@ -60,7 +60,13 @@ pipeline {
 
     stage('Publish To Nexus') {
       steps {
-        withMaven(globalMavenSettingsConfig: 'Global-Maven-settings', jdk: 'jdk17', maven: 'Maven3', traceability: true) {
+        withMaven(
+          globalMavenSettingsConfig: 'Global-Maven-settings',
+          mavenSettingsConfig: 'project-settings',   // REQUIRED for Nexus credentials
+          jdk: 'jdk17',
+          maven: 'Maven3',
+          traceability: true
+        ) {
           sh "mvn deploy -DskipTests"
         }
       }
@@ -85,4 +91,6 @@ pipeline {
         }
       }
     }
-}
+
+  } // END stages
+} // END pipeline
